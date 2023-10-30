@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Webpage using Google Charts API and D3.js</title>
+  <!-- Include the Google Charts API library -->
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://d3js.org/d3.v6.min.js"></script>
+  <script type="text/javascript">
+    // Load the Visualization API and the corechart package.
+    google.charts.load('current', {'packages':['corechart']});
+
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.charts.setOnLoadCallback(drawCharts);
+
+    // Callback function to draw the charts.
+    function drawCharts() {
+      // Create data for the pie chart.
+      var pieData = google.visualization.arrayToDataTable([
+        ['Task', 'Hours per Day'],
+        ['Work', 10],
+        ['Sleep', 8],
+        ['Eat', 4],
+        ['Other', 6]
+      ]);
+
+      // Create data for the bar chart.
+      var barData = google.visualization.arrayToDataTable([
+        ['Month', 'Sales'],
+        ['Jan', 250],
+        ['Feb', 150],
+        ['Mar', 200],
+        ['Apr', 300]
+      ]);
+
+      // Create data for the line chart.
+      var lineData = google.visualization.arrayToDataTable([
+        ['Year', 'Revenue'],
+        ['2018', 1800],
+        ['2019', 1000],
+        ['2020', 1500],
+        ['2021', 800]
+      ]);
+
+      // Create options for the pie chart.
+      var pieOptions = {
+        title: 'Daily Activities',
+        pieHole: 0.5
+      };
+
+      // Create options for the bar chart.
+      var barOptions = {
+        title: 'Monthly Sales'
+      };
+
+      // Create options for the line chart.
+      var lineOptions = {
+        title: 'Annual Revenue',
+        curveType: 'function',
+        legend: { position: 'bottom' }
+      };
+
+      // Instantiate and draw the pie chart and bar chart.
+      var pieChart = new google.visualization.PieChart(document.getElementById('pie-chart'));
+      pieChart.draw(pieData, pieOptions);
+
+      var barChart = new google.visualization.BarChart(document.getElementById('bar-chart'));
+      barChart.draw(barData, barOptions);
+
+      // Instantiate and draw the line chart.
+      var lineChart = new google.visualization.LineChart(document.getElementById('line-chart'));
+      lineChart.draw(lineData, lineOptions);
+
+      // Call function to draw scatter plot using D3.js
+      drawScatterPlot();
+    }
+
+    // Function to draw the scatter plot using D3.js
+    function drawScatterPlot() {
+      var scatterData = [
+        { x: 10, y: 20 },
+        { x: 20, y: 50 },
+        { x: 30, y: 150 },
+        { x: 410, y: 50 },
+        { x: 50, y: 130 }
+      ];
+
+      var svg = d3.select("#scatter-plot")
+        .append("svg")
+        .attr("width", 600)
+        .attr("height", 300);
+
+      svg.selectAll("circle")
+        .data(scatterData)
+        .enter()
+        .append("circle")
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y)
+        .attr("r", 5);
+    }
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 30px;
+    }
+    #charts-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+    }
+    .chart {
+      width: 600px;
+      height: 300px;
+      margin: 30px;
+    }
+    .description {
+      margin-top: 10px;
+    }
+    #scatter-plot {
+      width: 600px;
+      height: 300px;
+      margin: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Graphical depiction of Daily Activities</h1>
+  <div id="charts-container">
+    <div class="chart" id="pie-chart"></div>
+    <div class="description">
+      <p><strong>Pie Chart:</strong> This chart shows the distribution of daily activities.</p>
+    </div>
+    <div class="chart" id="bar-chart"></div>
+    <div class="description">
+      <p><strong>Bar Chart:</strong> This chart displays monthly sales data.</p>
+    </div>
+    <div class="chart" id="line-chart"></div>
+    <div class="description">
+      <p><strong>Line Chart:</strong> This chart represents the annual revenue over the years.</p>
+    </div>
+    <div id="scatter-plot"></div>
+    <div class="description">
+      <p><strong>Scatter Plot:</strong> This scatter plot showcases random data points using D3.js.</p>
+    </div>
+  </div>
+</body>
+</html>
